@@ -7,7 +7,8 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 router.get('/', async (req, res) => {
   try {
     const allProducts = await Product.findAll({
-      include: [{ all: true, nested: true }],
+      include: [{ all: true }],
+      attributes: { exclude: ['category_id'] },
     });
     res.json(allProducts);
   } catch (err) {
@@ -19,6 +20,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const oneProduct = await Product.findOne({
+      attributes: { exclude: ['category_id'] },
       where: {
         id: req.params.id,
       },
